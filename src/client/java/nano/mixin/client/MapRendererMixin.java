@@ -47,21 +47,21 @@ public class MapRendererMixin
 	{
 		MinecraftClient client = MinecraftClient.getInstance();
 		int layer = 0;
-		
+
 		// Ensure player icons are drawn on top of other icons.
 		for(MapDecoration mapDecoration : state.getDecorations())
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
-			
-			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS && decorationType != MapDecorationTypes.PLAYER_OFF_MAP)
+
+			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS)
 				layer++;
 		}
-		
+
 		for(MapDecoration mapDecoration : state.getDecorations())
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
 
-			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS && decorationType != MapDecorationTypes.PLAYER_OFF_MAP)
+			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS)
 				continue;
 
 			matrices.push();
