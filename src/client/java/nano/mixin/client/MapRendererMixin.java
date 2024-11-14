@@ -1,5 +1,9 @@
 package nano.mixin.client;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -48,8 +52,14 @@ public class MapRendererMixin
 		MinecraftClient client = MinecraftClient.getInstance();
 		int layer = 0;
 
+		// Reverse the list of decorations so the player is always on top
+		List<MapDecoration> decorations = new ArrayList<>();
+		for (MapDecoration mapDecoration : state.getDecorations())
+			decorations.add(mapDecoration);
+		Collections.reverse(decorations);
+
 		// Ensure player icons are drawn on top of other icons.
-		for(MapDecoration mapDecoration : state.getDecorations())
+		for(MapDecoration mapDecoration : decorations)
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
 
@@ -57,7 +67,7 @@ public class MapRendererMixin
 				layer++;
 		}
 
-		for(MapDecoration mapDecoration : state.getDecorations())
+		for(MapDecoration mapDecoration : decorations)
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
 
