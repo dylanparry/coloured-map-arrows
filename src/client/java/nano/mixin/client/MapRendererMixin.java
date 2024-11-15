@@ -63,7 +63,7 @@ public class MapRendererMixin
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
 
-			if(decorationType != MapDecorationTypes.PLAYER)
+			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS)
 				layer++;
 		}
 
@@ -71,7 +71,7 @@ public class MapRendererMixin
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
 
-			if(decorationType != MapDecorationTypes.PLAYER)
+			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS)
 				continue;
 
 			matrices.push();
