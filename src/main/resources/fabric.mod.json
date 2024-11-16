@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "cma",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "name": "Coloured Map Arrows",
   "description": "View all players with their team color on the map. Fork of 'Where Are We Now?'",
   "authors": ["dylanparry"],
