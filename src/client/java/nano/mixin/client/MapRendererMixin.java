@@ -44,6 +44,20 @@ public class MapRendererMixin
 	}
 
 	/**
+	 * Check whether the map is a treasure map.
+	 */
+	private boolean isTreasureMap(List<MapDecoration> decorations) {
+		for (MapDecoration mapDecoration : decorations) {
+			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
+
+			if (decorationType == MapDecorationTypes.RED_X)
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Draw custom player icons.
 	 */
 	@Inject(method = "draw", at = @At(value = "TAIL"))
@@ -58,12 +72,15 @@ public class MapRendererMixin
 			decorations.add(mapDecoration);
 		Collections.reverse(decorations);
 
+		// Is the map a treasure map?
+		boolean treasureMap = isTreasureMap(decorations);
+
 		// Ensure player icons are drawn on top of other icons.
 		for(MapDecoration mapDecoration : decorations)
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
 
-			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS)
+			if (decorationType != MapDecorationTypes.PLAYER && !(decorationType == MapDecorationTypes.PLAYER_OFF_LIMITS && treasureMap) && !(decorationType == MapDecorationTypes.PLAYER_OFF_MAP && treasureMap))
 				layer++;
 		}
 
@@ -71,7 +88,7 @@ public class MapRendererMixin
 		{
 			RegistryEntry<MapDecorationType> decorationType = mapDecoration.type();
 
-			if(decorationType != MapDecorationTypes.PLAYER && decorationType != MapDecorationTypes.PLAYER_OFF_LIMITS)
+			if (decorationType != MapDecorationTypes.PLAYER && !(decorationType == MapDecorationTypes.PLAYER_OFF_LIMITS && treasureMap) && !(decorationType == MapDecorationTypes.PLAYER_OFF_MAP && treasureMap))
 				continue;
 
 			matrices.push();
